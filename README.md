@@ -21,10 +21,14 @@ Examples: tstc
 
 Options:
 
-  -p --project FILE OR DIRECTORY
+  -p, --project FILE OR DIRECTORY
 
   Compile the project given the path to its configuration file, 
   or to a folder with a 'tsconfig.json'.
+
+  -v, --version
+
+  Print the compiler's version.
 
  ```
 

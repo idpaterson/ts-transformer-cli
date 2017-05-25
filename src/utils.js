@@ -1,3 +1,5 @@
+const ts = require('typescript')
+
 module.exports = {
   reportDiagnostic,
   reportDiagnostics,
