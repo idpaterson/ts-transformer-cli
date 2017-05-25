@@ -5,9 +5,11 @@
 
 This is a wrapper for the Typescript CLI that allows consumers to specifiy custom syntax transformers.
 
-Transformers are specified in the tsconfig.json file and will be acquired via node require or a path that is specified in the transformer config. Local paths are resolved from the $cwd.
+Transformers are specified in the tsconfig.json file and will be acquired via node require or a path that is specified in the transformer config. 
 
 When using npm packages to acquire a transformer the following naming convention is supported `ts-transformer-<name>`
+
+Local paths are resolved from the $cwd.
 
 ## Usage
 
@@ -30,7 +32,7 @@ The tsconfig is exactly same format as [specified in typescript](https://www.typ
 
 ## Transformers
 
-Example tsconfig
+#### Example tsconfig
 
 ```js
 {
@@ -39,7 +41,7 @@ Example tsconfig
     "mytransformer": {
 
       // Optional. Will attempt to require the path provided using the $cwd.
-      // When omitted the cli will attempt to require('ts-transformer-<name>')
+      // When omitted the cli will attempt to require('ts-transformer-<NAME>')
       "require": "./ts-transformer-mytransformer/index.js", 
 
       // Optional. Can be "before" and/or "after". "before" is the default. 
@@ -56,6 +58,32 @@ Example tsconfig
   },
 
   // all other typescript properties supported
+  ...
 }
 
+```
+
+#### Example Transformer
+
+```js
+module.exports = function (transformerConfig) {
+
+  console.log("config", transformerConfig)
+
+  // this is the function given to the typescript compiler
+  return function (context) {
+    const ts = require('typescript')
+
+    function visit(node) {
+      console.log("visited")
+      console.log(node.text)
+      return ts.visitNodes(node, visit, context)
+    }
+
+    return function transform(sourceFile) {
+      return ts.visitNode(sourceFile, visit)
+    }
+  }
+
+}
 ```
