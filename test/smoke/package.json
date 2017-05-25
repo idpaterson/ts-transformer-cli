@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "smoke-cli",
+  "description": "",
+  "dependencies": {
+    "ts-transformer-cli": "file:../.."
+  },
+  "scripts": {
+    "setup": "npm link ../..",
+    "test": "tstc"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "outDir": "../out",
+    "target": "es2017",
+    "moduleResolution": "node",
+    "allowJs": true
+  },
+  "files": [
+    "index.js"
+  ],
+  "transformers": {
+    "smoke": {
+      "require": "./transformers/ts-transformer-smoke/index.js",
+      "when": [],
+      "config": {
+        "hello": "world"
+      }
+    }
+  }
+}
