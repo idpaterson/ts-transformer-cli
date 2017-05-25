@@ -1,5 +1,8 @@
 # Syntax Transformer CLI for Typescript
 
+[![Build Status](https://img.shields.io/travis/ts-contrib/ts-transformer-cli/master.svg)](http://travis-ci.org/ts-contrib/ts-transformer-cli "Check this project's build status on TravisCI")
+[![npm version](https://badge.fury.io/js/ts-transformer-cli.svg)](https://badge.fury.io/js/ts-transformer-cli)
+
 This is a wrapper for the Typescript CLI that allows consumers to specifiy custom syntax transformers.
 
 Transformers are specified in the tsconfig.json file and will be acquired via node require or a path that is specified in the transformer config. Local paths are resolved from the $cwd.
