@@ -3,12 +3,16 @@
   "version": "1.0.0-alpha.3",
   "description": "",
   "devDependencies": {
-    "@types/node": "~7.0.22"
+    "@types/node": "~7.0.22",
+    "jshint": "2.9.4"
   },
   "dependencies": {
     "typescript": "^2.3.3"
   },
   "bin": {
     "tstc": "./bin/tstc"
+  },
+  "scripts": {
+    "lint": "jshint ./src"
   }
 }

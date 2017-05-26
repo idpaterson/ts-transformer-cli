@@ -28,6 +28,6 @@ function printVersion() {
 }
 
 function getDiagnosticText(...args) {
-  var diagnostic = ts.createCompilerDiagnostic.apply(undefined, args)
+  const diagnostic = ts.createCompilerDiagnostic.apply(undefined, args)
   return diagnostic.messageText
 }
