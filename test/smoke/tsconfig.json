@@ -10,7 +10,7 @@
   ],
   "transformers": {
     "smoke": {
-      "require": "./transformers/ts-transformer-smoke/index.js",
+      "as": "./transformers/ts-transformer-smoke/index.js",
       "when": [],
       "config": {
         "hello": "world"

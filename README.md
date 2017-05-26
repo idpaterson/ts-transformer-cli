@@ -44,9 +44,9 @@ The tsconfig is exactly same format as [specified in typescript](https://www.typ
     // Required. Transformer name
     "mytransformer": {
 
-      // Optional. Will attempt to require the path provided using the $cwd.
+      // Optional. Will attempt to require the path\name provided using the $cwd.
       // When omitted the cli will attempt to require('ts-transformer-<NAME>')
-      "require": "./ts-transformer-mytransformer/index.js", 
+      "as": "./ts-transformer-mytransformer/index.js", 
 
       // Optional. Can be "before" and/or "after". "before" is the default. 
       // When omitted it will use "before" as the default

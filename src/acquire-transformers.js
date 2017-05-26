@@ -42,7 +42,7 @@ module.exports = function (transformersObject) {
         runBefore = !runBefore && !runAfter
 
         // determine require path
-        let requirePath = transformer.require || `ts-transformer-${id}`
+        let requirePath = transformer.as || `ts-transformer-${id}`
         if (ts.isRootedDiskPath(requirePath) === false)
           requirePath = ts.combinePaths(process.cwd(), requirePath)
 
