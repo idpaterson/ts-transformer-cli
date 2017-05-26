@@ -39,7 +39,8 @@ module.exports = function (transformersObject) {
         }
 
         // default before if no "when" entry found
-        runBefore = !runBefore && !runAfter
+        if (!runBefore && !runAfter)
+          runBefore = true
 
         // determine require path
         let requirePath = transformer.as || `ts-transformer-${id}`
