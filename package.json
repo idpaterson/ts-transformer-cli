@@ -1,6 +1,6 @@
 {
   "name": "ts-transformer-cli",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "description": "",
   "devDependencies": {
     "@types/node": "~7.0.22",
