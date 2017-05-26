@@ -1,8 +1,11 @@
 const ts = require('typescript')
+const compile = require('./compile')
+
 const {
   printVersion,
   reportDiagnostic,
-  reportDiagnostics
+  reportDiagnostics,
+  getDiagnosticText
 } = require('./utils')
 
 const commandLine = ts.parseCommandLine(ts.sys.args)
@@ -57,8 +60,12 @@ if (commandLine.options.project) {
     }
   }
 } else if (commandLine.fileNames.length === 0) {
-  const searchPath = ts.normalizePath(ts.sys.getCurrentDirectory());
-  configFileName = ts.findConfigFile(searchPath, ts.sys.fileExists);
+  const searchPath = ts.normalizePath(ts.sys.getCurrentDirectory())
+  configFileName = ts.findConfigFile(searchPath, ts.sys.fileExists)
+} else if (!configFileName) {
+  // no config then no transformers but we made it here so compile anyway
+  compile(commandLine.files, commandLine.options, null, null)
+  return
 }
 
 if (commandLine.fileNames.length === 0 && !configFileName) {
@@ -69,7 +76,7 @@ if (commandLine.fileNames.length === 0 && !configFileName) {
     ),
     undefined
   )
-  return ts.sys.exit(ts.ExitStatus.Success)
+  return ts.sys.exit(ts.ExitStatus.DiagnosticsPresent_OutputsSkipped)
 }
 
 const configFilePath = ts.getNormalizedAbsolutePath(
@@ -108,7 +115,6 @@ if (configParseResult.errors.length > 0) {
 }
 
 const compilerOptions = configParseResult.options
-const compile = require('./compile')
 const transformers = loadedConfigFile.transformers
 
 let transformerPromises
@@ -127,7 +133,7 @@ transformerPromises.then(transformers => {
 
   const [before, after] = transformers
   compile(loadedConfigFile.files, compilerOptions, before, after)
+}).catch(error => {
+  ts.sys.write(error.message)
+  ts.sys.exit(ts.ExitStatus.DiagnosticsPresent_OutputsSkipped)
 })
-  .catch(error => {
-    console.error(error)
-  })

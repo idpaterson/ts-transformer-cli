@@ -8,7 +8,7 @@ module.exports = function (fileNames, compilerOptions, beforeTransformers, after
     fileNames,
     compilerOptions,
     compilerHost
-  );
+  )
 
   let before, after
 
@@ -22,12 +22,12 @@ module.exports = function (fileNames, compilerOptions, beforeTransformers, after
       transformer => transformer.handler(transformer.config)
     )
 
-  const transformers = { before, after };
+  const transformers = { before, after }
 
   const emitResult = program.emit(
     undefined, undefined, undefined, false,
     transformers
-  );
+  )
 
   if (emitResult.diagnostics.length > 0) {
     reportDiagnostics(emitResult.diagnostics, undefined)
@@ -35,4 +35,5 @@ module.exports = function (fileNames, compilerOptions, beforeTransformers, after
     return
   }
 
+  ts.sys.exit(ts.ExitStatus.Success)
 }

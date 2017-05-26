@@ -24,10 +24,10 @@ function reportDiagnostics(diagnostics) {
 function printVersion() {
   ts.sys.write(
     getDiagnosticText(ts.Diagnostics.Version_0, ts.version) + ts.sys.newLine
-  );
+  )
 }
 
 function getDiagnosticText(...args) {
-  var diagnostic = ts.createCompilerDiagnostic.apply(undefined, args);
-  return diagnostic.messageText;
+  var diagnostic = ts.createCompilerDiagnostic.apply(undefined, args)
+  return diagnostic.messageText
 }

@@ -1,4 +1,6 @@
 module.exports = function (transformersObject) {
+  const ts = require('typescript')
+
   const transformerIds = Object.keys(transformersObject)
   if (!transformerIds.length)
     return Promise.resolve([])
@@ -23,10 +25,6 @@ module.exports = function (transformersObject) {
 
       return stagedTransformers
     })
-    .catch(error => {
-      console.log("here")
-      console.error(error)
-    })
 
   function mapTransformersFromIds(transformerIds) {
     return transformerIds
@@ -45,9 +43,8 @@ module.exports = function (transformersObject) {
 
         // determine require path
         let requirePath = transformer.require || `ts-transformer-${id}`
-
-        if (require('path').isAbsolute(requirePath) === false)
-          requirePath = require('path').join(process.cwd(), requirePath)
+        if (ts.isRootedDiskPath(requirePath) === false)
+          requirePath = ts.combinePaths(process.cwd(), requirePath)
 
         // get the config
         const config = transformer.config
@@ -68,7 +65,6 @@ module.exports = function (transformersObject) {
       .map(transformer => {
         return acquire(transformer.requirePath)
           .then(handler => {
-
             const isFunction = handler instanceof Function
 
             const {
@@ -85,9 +81,7 @@ module.exports = function (transformersObject) {
               runAfter,
               handler
             }
-
           })
       })
   }
-
 }
