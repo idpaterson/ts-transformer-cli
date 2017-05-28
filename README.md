@@ -5,11 +5,9 @@
 
 This is a wrapper for the Typescript CLI that allows consumers to specifiy custom syntax transformers.
 
-Transformers are specified in the tsconfig.json file and will be acquired via node require or a path that is specified in the transformer config. 
-
-When using npm packages to acquire a transformer the following naming convention is supported `ts-transformer-<name>`
-
-Local paths are resolved from the $cwd.
+Transformers are specified in the tsconfig.json file and will be acquired via node require.
+  - When using npm packages to acquire a transformer the following naming convention is supported `ts-transformer-<name>`
+  - When a local path is pecified the package will be resolved using the $cwd.
 
 ## Usage
 
@@ -36,35 +34,57 @@ The tsconfig is exactly same format as [specified in typescript](https://www.typ
 
 ## Transformers
 
+#### Example transformer config
+
+```js
+// Transformer config
+{
+
+  // Required. Transformer name
+  "mytransformer": {
+
+    // Optional. Will attempt to require the path\name provided using the $cwd.
+    // When omitted the cli will attempt to require('ts-transformer-<NAME>')
+    "as": "./ts-transformer-mytransformer/index.js", 
+
+    // Optional. Can be "before" and/or "after". "before" is the default. 
+    // When "module" is specified it will replace the default typescripts default transform module
+    // When omitted it will use "before" as the default
+    "when": ["module", "before", "after"],
+
+    // Config that will be given to the entry method  of the transformer
+    "config": {                   
+      "hello": "world"
+    }
+
+  }
+}
+```
+
+The transformers config can be in a seperate file or inside the tsconfig
+
 #### Example tsconfig
 
 ```js
+// as a local path specifier
 {
-  "transformers": {
-    // Required. Transformer name
-    "mytransformer": {
-
-      // Optional. Will attempt to require the path\name provided using the $cwd.
-      // When omitted the cli will attempt to require('ts-transformer-<NAME>')
-      "as": "./ts-transformer-mytransformer/index.js", 
-
-      // Optional. Can be "before" and/or "after". "before" is the default. 
-      // When omitted it will use "before" as the default
-      "when": ["before", "after"],
-
-      // Config that will be given to the entry method  of the transformer
-      "config": {                   
-        "hello": "world"
-      }
-
-    }
-
-  },
-
-  // all other typescript properties supported
-  ...
+  "compilerOptions":{...},
+  "transformers": "./transformers.json"
 }
 
+```
+
+Transformers in the tsconfig file example
+
+```js
+//  tsconfig.json
+{
+  "compilerOptions":{...},
+
+  "transformers": {
+    // ... transformer config as above
+  }
+}
 ```
 
 #### Example Transformer
@@ -85,6 +105,44 @@ module.exports = function (transformerConfig) {
     }
 
     return function transform(sourceFile) {
+      return ts.visitNode(sourceFile, visit)
+    }
+  }
+
+}
+```
+
+#### Example Module Transformer
+
+```js
+// tsconfig compiler options
+{
+  "compilerOptions": {
+    "module": "my-module-transformer"
+  }
+}
+
+// Transformer config
+{
+  "my-module-transformer": {
+    "when": ["module"],
+    "config": {
+      "hello": "world"
+    }
+  }
+}
+```
+
+```js
+module.exports = function (transformerConfig, defaultTransformModule) {
+
+  // this is the function given to the typescript compiler
+  // defaultTransformModule is the replaced typescript function
+  return function (context) {
+    const ts = require('typescript')
+
+    return function transform(sourceFile) {
+      // write your own module
       return ts.visitNode(sourceFile, visit)
     }
   }

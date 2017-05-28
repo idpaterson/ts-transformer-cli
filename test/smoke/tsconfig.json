@@ -3,18 +3,11 @@
     "outDir": "../out",
     "target": "es2017",
     "moduleResolution": "node",
+    "module": "smoke-module",
     "allowJs": true
   },
   "files": [
     "index.js"
   ],
-  "transformers": {
-    "smoke": {
-      "as": "./transformers/ts-transformer-smoke/index.js",
-      "when": [],
-      "config": {
-        "hello": "world"
-      }
-    }
-  }
+  "transformers": "./transformers.json"
 }

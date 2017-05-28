@@ -23,7 +23,6 @@ module.exports = function (fileNames, compilerOptions, beforeTransformers, after
     )
 
   const transformers = { before, after }
-
   const emitResult = program.emit(
     undefined, undefined, undefined, false,
     transformers

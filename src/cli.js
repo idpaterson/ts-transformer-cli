@@ -9,7 +9,6 @@ const {
 } = require('./utils')
 
 const commandLine = ts.parseCommandLine(ts.sys.args)
-
 if (commandLine.errors.length > 0) {
   reportDiagnostics(commandLine.errors)
   return ts.sys.exit(ts.ExitStatus.DiagnosticsPresent_OutputsSkipped)
@@ -92,6 +91,15 @@ if (!loadedConfigFile.compilerOptions) {
   return
 }
 
+// parse the transformers 
+const transformersUtils = require('./transformersUtils')
+const transformersConfig = transformersUtils.parseTransformersTsConfigEntry(loadedConfigFile.transformers)
+if (transformersConfig) {
+  transformersUtils.compile(configFilePath, configFileName, loadedConfigFile, transformersConfig)
+  return
+}
+
+// no transformers but we made it here so compile anyway
 const configParseResult = ts.parseJsonConfigFileContent(
   // config
   loadedConfigFile,
@@ -114,26 +122,4 @@ if (configParseResult.errors.length > 0) {
   return
 }
 
-const compilerOptions = configParseResult.options
-const transformers = loadedConfigFile.transformers
-
-let transformerPromises
-if (transformers) {
-  const acquireTransformers = require('./acquire-transformers')
-  transformerPromises = acquireTransformers(transformers)
-}
-
-// process transformers
-transformerPromises.then(transformers => {
-  if (!transformers.length) {
-    // no transformers but we made it here so compile anyway
-    compile(loadedConfigFile.files, compilerOptions, null, null)
-    return
-  }
-
-  const [before, after] = transformers
-  compile(loadedConfigFile.files, compilerOptions, before, after)
-}).catch(error => {
-  ts.sys.write(error.message)
-  ts.sys.exit(ts.ExitStatus.DiagnosticsPresent_OutputsSkipped)
-})
+compile(loadedConfigFile.files, configParseResult.options, null, null)

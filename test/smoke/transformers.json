@@ -1,0 +1,18 @@
+{
+  "smoke": {
+    "as": "./transformers/smoke/index.js",
+    "when": [],
+    "config": {
+      "hello": "world"
+    }
+  },
+  "smoke-module": {
+    "as": "./transformers/smoke-module/index.js",
+    "when": [
+      "module"
+    ],
+    "config": {
+      "hello": "module"
+    }
+  }
+}
