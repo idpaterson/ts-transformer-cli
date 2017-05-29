@@ -108,7 +108,7 @@ module.exports.compile = function (configFilePath, configFileName, loadedConfigF
     .then(transformers => {
       let [before, after, modules] = pluckStagedTransformers(transformers)
 
-      if (modules)
+      if (modules.length)
         setCustomModuleTransformer(modules[0])
 
       const configParseResult = ts.parseJsonConfigFileContent(
