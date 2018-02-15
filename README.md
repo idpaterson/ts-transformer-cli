@@ -48,7 +48,7 @@ The tsconfig is exactly same format as [specified in typescript](https://www.typ
     "as": "./ts-transformer-mytransformer/index.js", 
 
     // Optional. Can be "before" and/or "after". "before" is the default. 
-    // When "module" is specified it will replace the default typescripts default transform module
+    // When "module" is specified it will replace typescript's default transform module
     // When omitted it will use "before" as the default
     "when": ["module", "before", "after"],
 
