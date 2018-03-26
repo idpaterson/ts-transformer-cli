@@ -90,13 +90,14 @@ Transformers in the tsconfig file example
 #### Example Transformer
 
 ```js
-module.exports = function (transformerConfig) {
+module.exports = function (transformerConfig, program) {
 
   console.log("config", transformerConfig)
 
   // this is the function given to the typescript compiler
   return function (context) {
     const ts = require('typescript')
+    const typeChecker = program.getTypeChecker();
 
     function visit(node) {
       console.log("visited")
