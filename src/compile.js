@@ -14,12 +14,12 @@ module.exports = function (fileNames, compilerOptions, beforeTransformers, after
 
   if (beforeTransformers)
     before = beforeTransformers.map(
-      transformer => transformer.handler(transformer.config)
+      transformer => transformer.handler(transformer.config, program)
     )
 
   if (afterTransformers)
     after = afterTransformers.map(
-      transformer => transformer.handler(transformer.config)
+      transformer => transformer.handler(transformer.config, program)
     )
 
   const transformers = { before, after }

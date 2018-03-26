@@ -1,9 +1,10 @@
-module.exports = function (transformerConfig) {
+module.exports = function (transformerConfig, program) {
 
   console.log("config", transformerConfig)
 
   return function (context) {
     const ts = require('typescript')
+    const typeChecker = program.getTypeChecker();
 
     function visit(node) {
       console.log("visited")
