@@ -122,4 +122,4 @@ if (configParseResult.errors.length > 0) {
   return
 }
 
-compile(loadedConfigFile.files, configParseResult.options, null, null)
+compile(configParseResult.fileNames, configParseResult.options, null, null)

@@ -135,7 +135,7 @@ module.exports.compile = function (configFilePath, configFileName, loadedConfigF
 
       const compilerOptions = configParseResult.options
 
-      compile(loadedConfigFile.files, compilerOptions, before, after)
+      compile(configParseResult.fileNames, compilerOptions, before, after)
     }).catch(error => {
       ts.sys.write(error.message)
       ts.sys.exit(ts.ExitStatus.DiagnosticsPresent_OutputsSkipped)

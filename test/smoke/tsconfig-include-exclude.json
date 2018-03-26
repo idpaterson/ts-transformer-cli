@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "outDir": "../out",
+    "target": "es2017",
+    "moduleResolution": "node",
+    "module": "smoke-module",
+    "allowJs": true
+  },
+  "include": [
+    "**/*.js"
+  ],
+  "exclude": [
+    "*/**/*.js"
+  ],
+  "transformers": "./transformers.json"
+}

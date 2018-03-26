@@ -7,6 +7,6 @@
   },
   "scripts": {
     "setup": "npm link ../..",
-    "test": "tstc"
+    "test": "tstc && tstc -p tsconfig-include-exclude.json"
   }
 }
