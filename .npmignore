@@ -3,6 +3,6 @@
 !README.md
 !LICENSE.md
 !CHANGELOG.md
-!src\**\*
-!bin\**\*
+!src/**/*
+!bin/**/*
 !package.json
